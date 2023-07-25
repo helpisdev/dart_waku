@@ -1,6 +1,6 @@
 name: dart_waku
 description: Dart bindings for the waku project.
-version: 0.0.0+1
+version: 0.0.1
 repository: https://github.com/helpisdev/dart_waku
 homepage: https://docs.waku.org/dart_waku
 documentation: https://waku.org
