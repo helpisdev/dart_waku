@@ -1,0 +1,51 @@
+name: dart_waku
+repository: https://github.com/helpisdev/dart_waku.git
+packages:
+  - packages/**
+  - .
+
+ignore:
+  - "packages/**/example"
+  - "packages/**/examples"
+  - "examples"
+
+sdkPath: auto
+command:
+  bootstrap:
+    usePubspecOverrides: true
+  version:
+    includeCommitId: true
+    linkToCommits: true
+    workspaceChangelog: true
+    updateGitTagRefs: true
+    includeScopes: true
+    branch: main
+scripts:
+  get:
+    exec: dart pub get
+  upgrade:
+    exec: dart pub upgrade
+  upgrade:major:
+    exec: dart pub upgrade --major-versions
+  format:check:
+    exec: dart format --set-exit-if-changed .
+  format:fix:
+    exec: dart format --fix .
+  lint:
+    exec: dart fix --dry-run
+  fix:
+    exec: dart fix --apply
+  analyze:
+    exec: dart analyze --fatal-infos
+  test:
+    exec: dart test
+  gen:coverage:
+    exec: "$MELOS_ROOT_PATH/tool/combine_coverage.sh"
+  gen:coverage:html:
+    exec: "genhtml $MELOS_ROOT_PATH/coverage/lcov.info -o $MELOS_ROOT_PATH/coverage/html"
+  build:debug:
+    exec: dart build -v $1
+  build:release:
+    exec: dart build -v --release $1
+  fastlane:
+    run: bundle exec fastlane $1
