@@ -10,7 +10,7 @@ import 'dart:ffi' as ffi;
 
 /// Bindings for `packages/nwaku/library/libwaku.h`.
 ///
-/// Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
+/// Regenerate bindings with `dart run ffigen --config ffigen_waku.yaml`.
 ///
 class Waku {
   /// Holds the symbol lookup function.
@@ -26,77 +26,24 @@ class Waku {
           lookup)
       : _lookup = lookup;
 
-  /// This should only be called once.
-  /// It initializes the nim runtime and GC.
-  void waku_init_lib() {
-    return _waku_init_lib();
-  }
-
-  late final _waku_init_libPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function()>>('waku_init_lib');
-  late final _waku_init_lib = _waku_init_libPtr.asFunction<void Function()>();
-
-  /// Creates a new instance of the waku node.
-  /// Sets up the waku node from the given configuration.
-  int waku_new(
-    ffi.Pointer<ffi.Char> configJson,
+  int waku_connect(
+    ffi.Pointer<ffi.Char> peerMultiAddr,
+    int timeoutMs,
     WakuCallBack onErrCb,
   ) {
-    return _waku_new(
-      configJson,
+    return _waku_connect(
+      peerMultiAddr,
+      timeoutMs,
       onErrCb,
     );
   }
 
-  late final _waku_newPtr = _lookup<
+  late final _waku_connectPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Int Function(ffi.Pointer<ffi.Char>, WakuCallBack)>>('waku_new');
-  late final _waku_new = _waku_newPtr
-      .asFunction<int Function(ffi.Pointer<ffi.Char>, WakuCallBack)>();
-
-  void waku_start() {
-    return _waku_start();
-  }
-
-  late final _waku_startPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function()>>('waku_start');
-  late final _waku_start = _waku_startPtr.asFunction<void Function()>();
-
-  void waku_stop() {
-    return _waku_stop();
-  }
-
-  late final _waku_stopPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function()>>('waku_stop');
-  late final _waku_stop = _waku_stopPtr.asFunction<void Function()>();
-
-  int waku_version(
-    WakuCallBack onOkCb,
-  ) {
-    return _waku_version(
-      onOkCb,
-    );
-  }
-
-  late final _waku_versionPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(WakuCallBack)>>(
-          'waku_version');
-  late final _waku_version =
-      _waku_versionPtr.asFunction<int Function(WakuCallBack)>();
-
-  void waku_set_relay_callback(
-    WakuCallBack callback,
-  ) {
-    return _waku_set_relay_callback(
-      callback,
-    );
-  }
-
-  late final _waku_set_relay_callbackPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(WakuCallBack)>>(
-          'waku_set_relay_callback');
-  late final _waku_set_relay_callback =
-      _waku_set_relay_callbackPtr.asFunction<void Function(WakuCallBack)>();
+          ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.UnsignedInt,
+              WakuCallBack)>>('waku_connect');
+  late final _waku_connect = _waku_connectPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Char>, int, WakuCallBack)>();
 
   int waku_content_topic(
     ffi.Pointer<ffi.Char> appName,
@@ -126,6 +73,38 @@ class Waku {
       int Function(ffi.Pointer<ffi.Char>, int, ffi.Pointer<ffi.Char>,
           ffi.Pointer<ffi.Char>, WakuCallBack)>();
 
+  int waku_default_pubsub_topic(
+    WakuCallBack onOkCb,
+  ) {
+    return _waku_default_pubsub_topic(
+      onOkCb,
+    );
+  }
+
+  late final _waku_default_pubsub_topicPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(WakuCallBack)>>(
+          'waku_default_pubsub_topic');
+  late final _waku_default_pubsub_topic =
+      _waku_default_pubsub_topicPtr.asFunction<int Function(WakuCallBack)>();
+
+  /// Creates a new instance of the waku node.
+  /// Sets up the waku node from the given configuration.
+  int waku_new(
+    ffi.Pointer<ffi.Char> configJson,
+    WakuCallBack onErrCb,
+  ) {
+    return _waku_new(
+      configJson,
+      onErrCb,
+    );
+  }
+
+  late final _waku_newPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(ffi.Pointer<ffi.Char>, WakuCallBack)>>('waku_new');
+  late final _waku_new = _waku_newPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Char>, WakuCallBack)>();
+
   int waku_pubsub_topic(
     ffi.Pointer<ffi.Char> topicName,
     WakuCallBack onOkCb,
@@ -142,20 +121,6 @@ class Waku {
               ffi.Pointer<ffi.Char>, WakuCallBack)>>('waku_pubsub_topic');
   late final _waku_pubsub_topic = _waku_pubsub_topicPtr
       .asFunction<int Function(ffi.Pointer<ffi.Char>, WakuCallBack)>();
-
-  int waku_default_pubsub_topic(
-    WakuCallBack onOkCb,
-  ) {
-    return _waku_default_pubsub_topic(
-      onOkCb,
-    );
-  }
-
-  late final _waku_default_pubsub_topicPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(WakuCallBack)>>(
-          'waku_default_pubsub_topic');
-  late final _waku_default_pubsub_topic =
-      _waku_default_pubsub_topicPtr.asFunction<int Function(WakuCallBack)>();
 
   int waku_relay_publish(
     ffi.Pointer<ffi.Char> pubSubTopic,
@@ -219,44 +184,57 @@ class Waku {
   late final _waku_relay_unsubscribe = _waku_relay_unsubscribePtr
       .asFunction<int Function(ffi.Pointer<ffi.Char>, WakuCallBack)>();
 
-  int waku_connect(
-    ffi.Pointer<ffi.Char> peerMultiAddr,
-    int timeoutMs,
-    WakuCallBack onErrCb,
+  void waku_set_event_callback(
+    WakuCallBack callback,
   ) {
-    return _waku_connect(
-      peerMultiAddr,
-      timeoutMs,
-      onErrCb,
+    return _waku_set_event_callback(
+      callback,
     );
   }
 
-  late final _waku_connectPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.UnsignedInt,
-              WakuCallBack)>>('waku_connect');
-  late final _waku_connect = _waku_connectPtr
-      .asFunction<int Function(ffi.Pointer<ffi.Char>, int, WakuCallBack)>();
+  late final _waku_set_event_callbackPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(WakuCallBack)>>(
+          'waku_set_event_callback');
+  late final _waku_set_event_callback =
+      _waku_set_event_callbackPtr.asFunction<void Function(WakuCallBack)>();
 
-  void waku_poll() {
-    return _waku_poll();
+  void waku_start() {
+    return _waku_start();
   }
 
-  late final _waku_pollPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function()>>('waku_poll');
-  late final _waku_poll = _waku_pollPtr.asFunction<void Function()>();
+  late final _waku_startPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function()>>('waku_start');
+  late final _waku_start = _waku_startPtr.asFunction<void Function()>();
+
+  void waku_stop() {
+    return _waku_stop();
+  }
+
+  late final _waku_stopPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function()>>('waku_stop');
+  late final _waku_stop = _waku_stopPtr.asFunction<void Function()>();
+
+  int waku_version(
+    WakuCallBack onOkCb,
+  ) {
+    return _waku_version(
+      onOkCb,
+    );
+  }
+
+  late final _waku_versionPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(WakuCallBack)>>(
+          'waku_version');
+  late final _waku_version =
+      _waku_versionPtr.asFunction<int Function(WakuCallBack)>();
 }
-
-final class max_align_t extends ffi.Opaque {}
-
-typedef WakuCallBack = ffi.Pointer<
-    ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<ffi.Char> msg, ffi.Size len_0)>>;
-
-const int RET_OK = 0;
 
 const int RET_ERR = 1;
 
 const int RET_MISSING_CALLBACK = 2;
 
-const int NULL = 0;
+const int RET_OK = 0;
+
+typedef WakuCallBack = ffi.Pointer<
+    ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<ffi.Char> msg, ffi.Size len_0)>>;
