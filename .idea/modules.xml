@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/melos_dart_waku.iml" filepath="$PROJECT_DIR$/melos_dart_waku.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/simple_example/melos_simple_example.iml" filepath="$PROJECT_DIR$/examples/simple_example/melos_simple_example.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_dart_waku.iml" filepath="$PROJECT_DIR$/melos_dart_waku.iml" />
     </modules>
   </component>

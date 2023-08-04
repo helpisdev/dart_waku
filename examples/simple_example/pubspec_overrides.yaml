@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: dart_waku
+dependency_overrides:
+  dart_waku:
+    path: ../..
