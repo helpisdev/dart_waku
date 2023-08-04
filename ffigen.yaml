@@ -7,10 +7,15 @@ output: "lib/src/nwaku_bindings.dart"
 headers:
   entry-points:
     - "packages/nwaku/library/libwaku.h"
+  include-directives: # generate only for these headers
+    - 'packages/nwaku/library/libwaku.h'
 preamble: |
   // ignore_for_file: always_specify_types
   // ignore_for_file: camel_case_types
   // ignore_for_file: non_constant_identifier_names
+compiler-opts:
+  - '-DFFI_GEN'
 comments:
   style: any
   length: full
+sort: true
