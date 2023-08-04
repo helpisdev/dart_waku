@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`dart_waku` - `v0.0.2`](#dart_waku---v002)
+ - [`simple_example` - `v0.0.2`](#simple_example---v002)
+
+---
+
+#### `dart_waku` - `v0.0.2`
+
+ - **FEAT**(example): Add simple example. ([097b65f6](https://github.com/helpisdev/dart_waku.git/commit/097b65f6cf9dfbb5000598e95ebc37699e7fee30))
+ - **FEAT**(callbacks): Add callbacks support. ([ab27e796](https://github.com/helpisdev/dart_waku.git/commit/ab27e79619e10bdf2a90cc47145426d8106e306c))
+
+#### `simple_example` - `v0.0.2`
+
+ - **FEAT**(example): Add simple example. ([097b65f6](https://github.com/helpisdev/dart_waku.git/commit/097b65f6cf9dfbb5000598e95ebc37699e7fee30))
+
+## 0.0.2
+
+ - **FEAT**(example): Add simple example. ([097b65f6](https://github.com/helpisdev/dart_waku.git/commit/097b65f6cf9dfbb5000598e95ebc37699e7fee30))
+ - **FEAT**(callbacks): Add callbacks support. ([ab27e796](https://github.com/helpisdev/dart_waku.git/commit/ab27e79619e10bdf2a90cc47145426d8106e306c))
+
+
 ## 2023-07-25
 
 ### Changes
