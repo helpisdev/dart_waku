@@ -1,0 +1,17 @@
+name: simple_example
+description: A simple example using the waku library.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  dart_waku:
+    path: ../
+  flutter:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
