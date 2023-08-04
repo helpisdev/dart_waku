@@ -1,13 +1,9 @@
 name: dart_waku
-repository: https://github.com/helpisdev/dart_waku.git
+repository: "https://github.com/helpisdev/dart_waku.git"
 packages:
+  - examples/**
   - packages/**
   - .
-
-ignore:
-  - "packages/**/example"
-  - "packages/**/examples"
-  - "examples"
 
 sdkPath: auto
 command:
@@ -21,12 +17,20 @@ command:
     includeScopes: true
     branch: main
 scripts:
+  config:
+    select-package:
+      flutter: true
+    exec: "flutter config --enable-web --enable-macos-desktop --enable-linux-desktop --enable-windows-desktop --enable-ios --enable-android --single-widget-reload-optimization"
   get:
-    exec: dart pub get
+    exec: flutter packages pub get
   upgrade:
-    exec: dart pub upgrade
+    exec: flutter pub upgrade
   upgrade:major:
-    exec: dart pub upgrade --major-versions
+    exec: flutter pub upgrade --major-versions
+  flutter:clean:
+    select-package:
+      flutter: true
+    exec: flutter clean
   format:check:
     exec: dart format --set-exit-if-changed .
   format:fix:
@@ -39,13 +43,29 @@ scripts:
     exec: dart analyze --fatal-infos
   test:
     exec: dart test
+  test:integration:
+    select-package:
+      flutter: true
+    exec: flutter drive
+  test:benchmark:
+    select-package:
+      flutter: true
+    exec: flutter test test_benchmark
+  test:goldens:
+    select-package:
+      flutter: true
+    exec: flutter test --update-goldens --tags=golden
+  test:coverage:
+    select-package:
+      flutter: true
+    exec: flutter test --coverage --merge-coverage --no-pub
   gen:coverage:
     exec: "$MELOS_ROOT_PATH/tool/combine_coverage.sh"
   gen:coverage:html:
     exec: "genhtml $MELOS_ROOT_PATH/coverage/lcov.info -o $MELOS_ROOT_PATH/coverage/html"
-  build:debug:
-    exec: dart build -v $1
-  build:release:
-    exec: dart build -v --release $1
-  fastlane:
-    run: bundle exec fastlane $1
+  gen:ffi:
+    exec: "dart run ffigen --config ffigen.yaml"
+  git:submodule:
+    exec: "git submodule update --init --recursive --remote --progress"
+  build:
+    exec: "melos run git:submodule && cd packages/nwaku && make -j8 libwaku && cd ../.. && melos run gen:ffi"
