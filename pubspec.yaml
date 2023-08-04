@@ -15,6 +15,5 @@ dependencies:
   universal_io: ^2.2.2
 
 dev_dependencies:
-  build_runner: ^2.4.6
   ffigen: ^8.0.2
   melos: ^3.1.1
